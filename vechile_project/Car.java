@@ -1,18 +1,20 @@
-public class Car extends Vehicle  {
-    private String carType; // e.g., Sedan, SUV, Coupe, etc.
-    private boolean Available;
-     
+public class Car extends Vehicle implements Rentable {
     
     
-    
+    private String carType; // e.g., Sedan, SUV, Coupe
+
+    // Constructor
     public Car(String vehicleId, String brand, String model, int year, double pricePerDay, int quantity, String carType) {
         super(vehicleId, brand, model, year, pricePerDay, quantity);
         this.carType = carType;
     }
     
+
     public String getCarType() {
         return carType;
     }
+
+
     @Override
     public String getVehicleInfo() {
         return "Car [ID=" + getVehicleId() + ", Brand=" + getBrand() + ", Model=" + getModel() + ", Year=" + getYear() +
@@ -22,30 +24,49 @@ public class Car extends Vehicle  {
 
 
 
-    public void setAvailable(boolean available) {
-        this.Available = available;
+    // Implementing Rentable interface methods
+
+
+    @Override
+    public void rent(Customer customer, int days) {
+        if (isAvailable()) {
+            setQuantity(getQuantity() - 1);
+            System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
+        } else {
+            System.out.println("Car is not available for rent.");
+        }
+        
     }
 
-
-    public boolean isAvailable(){
-        return Available;
+    @Override
+    public double getRentalPrice(int days) {   // Calculate rental price
+        return getPricePerDay() * days;
     }
-    
-    
-    // // Check if the item is available for rent
-    // public void rent(Customer customer, int days){
 
+    @Override
+    public void returnItem() {    // Return the rented car
+        setQuantity(getQuantity() + 1);
+        System.out.println("Car returned successfully.");   // Confirmation message
+    }
 
-    // } // Rent the item to a customer for a specified number of days
-    // public double getRentalPrice(int days){
-       
+    @Override
+    public String getDescription() {
+        return "Car: " + getBrand() + " " + getModel() + " (" + getYear() + "), Type: " + getCarType();
+    }
 
-    // } // Get the rental price for a specified number of days
-    // public void returnItem(){
+    @Override
+    public boolean isAvailable() {
+        return super.isAvailable();
+    }
 
-    // } // Return the rented item
-    // public String getDescription(){
-       
-
-    // }// Get a description of the rentable item
+    @Override
+    public int compareTo(Rentable other) {   // Compare based on vehicle ID
+        if (other instanceof Vehicle) {
+            Vehicle otherVehicle = (Vehicle) other;
+            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
+        }
+        return 0;
+    }
 }
+
+
