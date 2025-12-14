@@ -1,18 +1,34 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Vehicle {
 
     
 
-     private String vehicleId;      
+    private String vehicleId;      
     private String brand;          
     private String model;          
     private int year;            
     private double pricePerDay;  
-    private boolean isAvailable;   
+    private int quantity; 
+    private static Map<String, Integer> idMap = new HashMap<>();
 
-    public Vehicle(String vehicleId, String brand, String model, int year, double pricePerDay) {
-         if (vehicleId == null || vehicleId.isBlank()) {
+    public Vehicle(String vehicleId, String brand, String model, int year, double pricePerDay, int quantity) {
+      
+        
+        if (idMap.containsKey(vehicleId)) {
+            int count = idMap.get(vehicleId) + quantity;
+            idMap.put(vehicleId, count);
+        } 
+        else {
+            idMap.put(vehicleId, quantity);
+           
+               }
+        if (vehicleId == null || vehicleId.isBlank()) {
+        
         throw new IllegalArgumentException("Vehicle ID cannot be null or empty");
     }
+    
 
     if (brand == null || brand.isBlank()) {
         throw new IllegalArgumentException("Brand cannot be null or empty");
@@ -29,29 +45,69 @@ public abstract class Vehicle {
     if (pricePerDay <= 0) {
         throw new IllegalArgumentException("Price per day must be greater than 0");
     }
+    if (quantity < 0) {
+        throw new IllegalArgumentException("Quantity cannot be negative");
+    }
+
         this.vehicleId = vehicleId;
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.pricePerDay = pricePerDay;
-        this.isAvailable = true;
+        this.quantity = idMap.get(vehicleId);
+
     
-}
-    public abstract  String getVehicleId();
-    public abstract String getBrand();
-    public abstract String getModel();
-    public abstract int getYear();
-    public abstract double getPricePerDay();
-    public abstract double setPricePerDay();
-    public abstract boolean isAvailable();
-    public abstract void setAvailable(boolean available);
+    }
+   public String getVehicleId() {
+        return vehicleId;
+    }
+    
+    public String getBrand() {
+        return brand;
+    }
+    
+    public String getModel() {
+        return model;
+    }
+    
+    public int getYear() {
+        return year;
+    }
+    
+    public double getPricePerDay() {
+        return pricePerDay;
+    }
+    
+    public void setPricePerDay(double pricePerDay) {
+        if (pricePerDay <= 0) {
+            throw new IllegalArgumentException("Price per day must be greater than 0");
+        }
+        this.pricePerDay = pricePerDay;
+    }
+    
+   
+    public boolean isAvailable() {
+        if(quantity >0)
+            return true;
+        else
+            return  false;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
+    }
     public abstract String getVehicleInfo();
-    @ Override
-    public String toString(){
+    
+    @Override
+    public String toString() {
         return getVehicleInfo();
     }
-
-
 }
    
 
