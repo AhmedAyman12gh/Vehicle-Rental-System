@@ -7,15 +7,37 @@ public class Booking {
     private LocalDate returnDate;
     private double totalCost;
     private boolean isPaid;
+    public static int bookingCounter = 0; 
 
-    public Booking(String bookingId, Customer customer, Rentable rentedItem, LocalDate rentalDate, LocalDate returnDate) {
-        this.bookingId = bookingId;
+    public Booking(Customer customer, Rentable rentedItem, LocalDate rentalDate, LocalDate returnDate) {
+        
+        // 1. Validate Customer
+        if (customer == null) {
+            throw new IllegalArgumentException("Error: Customer cannot be null.");
+        }
+
+        // 2. Validate Item
+        if (rentedItem == null) {
+            throw new IllegalArgumentException("Error: Rented item cannot be null.");
+        }
+
+        // 3. Validate Dates exist
+        if (rentalDate == null || returnDate == null) {
+            throw new IllegalArgumentException("Error: Dates cannot be null.");
+        }
+
+        // 4. Validate Date Logic (Time Travel Check)
+        if (returnDate.isBefore(rentalDate)) {
+            throw new IllegalArgumentException("Error: Return date cannot be before rental date.");
+        }
+        this.bookingId = "B" + bookingCounter;
         this.customer = customer;
         this.rentedItem = rentedItem;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
         this.isPaid = false;
         calculateTotalCost();
+        bookingCounter++;
     }
      private void calculateTotalCost() {
         long days = java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate);
