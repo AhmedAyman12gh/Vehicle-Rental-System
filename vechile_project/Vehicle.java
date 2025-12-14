@@ -90,12 +90,22 @@ public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
     public int getQuantity() {
         return quantity;
     }
-    public void addQuantity(int quantity) {
-        if (quantity < -this.quantity) {
-            throw new IllegalArgumentException("Quantity cannot be negative");
-        }
-        this.quantity += quantity;
+    //////////////////////////////////////////////////////////
+  public void addQuantity(int quantity, User user) {
+    // تأكد إن المستخدم Admin
+    if (!(user instanceof Admin)) {
+        throw new IllegalStateException("Only Admin can add quantity!");
     }
+
+    // تأكد إن الكمية بعد التغيير مش هتصير سالبة
+    if (quantity < -this.quantity) {
+        throw new IllegalArgumentException("Quantity cannot be negative");
+    }
+
+    // تحديث الكمية
+    this.quantity += quantity;
+    }
+    ///////////////////////////////////////////////////////////
     public abstract String getVehicleInfo();
     
     @Override

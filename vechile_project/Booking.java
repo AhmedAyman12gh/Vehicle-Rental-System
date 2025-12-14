@@ -82,13 +82,22 @@ public class Booking {
                "Total Cost: $" + totalCost;
     }
 
-    public void confirmBooking() {
-    if (!rentedItem.isAvailable()) {
-        throw new IllegalStateException("Error: Vehicle is not available for rent.");
+
+    public void confirmBooking(Admin admin) {
+    if (admin == null) {
+        throw new SecurityException("Only Admin can approve bookings.");
     }
-    this.isPaid = true;
-    rentedItem.rent(customer, (int) java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate));
     
-    System.out.println("Booking Confirmed for " + customer.getName());
+    // Check availability NOW (at moment of approval), not just at request time
+    if (!rentedItem.isAvailable()) {
+        throw new IllegalStateException("Vehicle is no longer available.");
     }
+
+    this.isPaid = true; // or set status to APPROVED
+    
+    // Perform the actual rent logic
+    rentedItem.rent(customer, (int) java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate), admin);
 }
+
+}
+
