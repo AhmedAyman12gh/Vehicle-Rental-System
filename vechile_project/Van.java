@@ -1,4 +1,4 @@
-public class Van extends Vehicle {
+public class Van extends Vehicle implements Rentable {
    
     private String vanType; // e.g., Minivan, Cargo Van, Passenger Van, etc.
     private boolean Available;
@@ -21,34 +21,63 @@ public class Van extends Vehicle {
     }
 
 
-
-
     public void setAvailable(boolean available) {
         this.Available = available;
     }
 
+   
 
+
+    // implementing Rentable interface methods
+
+    @Override
+    public void rent(Customer customer, int days) {
+        if (isAvailable()) {
+            setQuantity(getQuantity() - 1);
+            System.out.println("Van rented to " + customer.getName() + " for " + days + " days.");
+        } else {
+            System.out.println("Van is not available for rent.");
+        }
+        
+    }
+
+    @Override
+    public double getRentalPrice(int days) {   // Calculate rental price
+        return getPricePerDay() * days;
+    }
+
+    @Override
+    public void returnItem() {    // Return the rented van
+        setQuantity(getQuantity() + 1);
+        System.out.println("Van returned successfully.");   // Confirmation message
+    }
+
+    @Override
+    public String getDescription() {    
+        return "Van: " + getBrand() + " " + getModel() + " (" + getYear() + "), Type: " + getVanType();
+    }
+
+    @Override
+    public int compareTo(Rentable other) {   // Compare based on vehicle ID 
+        if (other instanceof Vehicle) {
+            Vehicle otherVehicle = (Vehicle) other;
+            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
+        }
+        return 0;
+    }
+
+     @Override
     public boolean isAvailable(){
-        return Available;
+        return super.isAvailable();
     }
     
     
-    // // Check if the item is available for rent
-    // public void rent(Customer customer, int days){
 
 
-    // } // Rent the item to a customer for a specified number of days
-    // public double getRentalPrice(int days){
-       
 
-    // } // Get the rental price for a specified number of days
-    // public void returnItem(){
 
-    // } // Return the rented item
-    // public String getDescription(){
-       
 
-    // }// Get a description of the rentable item
+
 }
 
    

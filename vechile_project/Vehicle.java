@@ -1,5 +1,5 @@
 
-public abstract class Vehicle {
+public abstract class Vehicle implements Rentable {
     private String vehicleId;      
     private String brand;          
     private String model;          
@@ -100,9 +100,15 @@ public abstract class Vehicle {
         return getVehicleInfo();
     }
 
-    
 
+    @Override
+    public int compareTo(Rentable other) {
+        if (other instanceof Vehicle) {
+            Vehicle otherVehicle = (Vehicle) other;
+            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
+        }
+        return 0;
+    }
 }
-   
 
     
