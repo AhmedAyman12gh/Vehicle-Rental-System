@@ -1,29 +1,17 @@
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Vehicle {
-
-    
-
     private String vehicleId;      
     private String brand;          
     private String model;          
     private int year;            
     private double pricePerDay;  
     private int quantity; 
-    private static Map<String, Integer> idMap = new HashMap<>();
+
 
     public Vehicle(String vehicleId, String brand, String model, int year, double pricePerDay, int quantity) {
       
         
-        if (idMap.containsKey(vehicleId)) {
-            int count = idMap.get(vehicleId) + quantity;
-            idMap.put(vehicleId, count);
-        } 
-        else {
-            idMap.put(vehicleId, quantity);
-           
-               }
+       
         if (vehicleId == null || vehicleId.isBlank()) {
         
         throw new IllegalArgumentException("Vehicle ID cannot be null or empty");
@@ -54,7 +42,7 @@ public abstract class Vehicle {
         this.model = model;
         this.year = year;
         this.pricePerDay = pricePerDay;
-        this.quantity = idMap.get(vehicleId);
+        this.quantity = quantity;
 
     
     }
@@ -96,11 +84,11 @@ public abstract class Vehicle {
     public int getQuantity() {
         return quantity;
     }
-    public void setQuantity(int quantity) {
+    public void addQuantity(int quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
         }
-        this.quantity = quantity;
+        this.quantity += quantity;
     }
     public abstract String getVehicleInfo();
     
