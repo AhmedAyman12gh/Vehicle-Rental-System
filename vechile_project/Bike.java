@@ -47,10 +47,6 @@ public class Bike extends Vehicle {
         System.out.println("Bike returned successfully.");   // Confirmation message
     }
 
-    @Override 
-    public boolean isAvailable() {
-        return super.isAvailable();
-    }
 
 
     
