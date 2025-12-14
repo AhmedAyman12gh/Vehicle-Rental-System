@@ -31,7 +31,7 @@ public class Van extends Vehicle  {
     // implementing Rentable interface methods
 
     @Override
-    public void rent(Customer customer, int days) {
+    public void rent(Customer customer, int days , Admin admin) {
         if (isAvailable()) {
             setQuantity(getQuantity() - 1);
             System.out.println("Van rented to " + customer.getName() + " for " + days + " days.");

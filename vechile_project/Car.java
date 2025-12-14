@@ -28,7 +28,7 @@ public class Car extends Vehicle {
 
 
     @Override
-    public void rent(Customer customer, int days) {
+    public void rent(Customer customer, int days , Admin admin) {
         if (isAvailable()) {
             setQuantity(getQuantity() - 1);
             System.out.println("Car rented to " + customer.getName() + " for " + days + " days.");
