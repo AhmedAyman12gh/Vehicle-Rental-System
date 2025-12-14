@@ -1,7 +1,7 @@
-public class Van extends Vehicle implements Rentable {
+public class Van extends Vehicle  {
    
-    private String vanType; // e.g., Minivan, Cargo Van, Passenger Van, etc.
-    private boolean Available;
+    private final String vanType; // e.g., Minivan, Cargo Van, Passenger Van, etc.
+    
      
     
     
@@ -14,6 +14,8 @@ public class Van extends Vehicle implements Rentable {
     public String getVanType() {
         return vanType;
     }
+
+
     @Override
     public String getVehicleInfo() {
         return "Car [ID=" + getVehicleId() + ", Brand=" + getBrand() + ", Model=" + getModel() + ", Year=" + getYear() +
@@ -21,9 +23,7 @@ public class Van extends Vehicle implements Rentable {
     }
 
 
-    public void setAvailable(boolean available) {
-        this.Available = available;
-    }
+    
 
    
 
@@ -57,19 +57,8 @@ public class Van extends Vehicle implements Rentable {
         return "Van: " + getBrand() + " " + getModel() + " (" + getYear() + "), Type: " + getVanType();
     }
 
-    @Override
-    public int compareTo(Rentable other) {   // Compare based on vehicle ID 
-        if (other instanceof Vehicle) {
-            Vehicle otherVehicle = (Vehicle) other;
-            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
-        }
-        return 0;
-    }
+    
 
-     @Override
-    public boolean isAvailable(){
-        return super.isAvailable();
-    }
     
     
 

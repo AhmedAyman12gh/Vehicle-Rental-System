@@ -1,5 +1,5 @@
 
-public abstract class Vehicle implements Rentable {
+public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
     private String vehicleId;      
     private String brand;          
     private String model;          
@@ -72,14 +72,14 @@ public abstract class Vehicle implements Rentable {
         }
         this.pricePerDay = pricePerDay;
     }
+
     
-   
+   @Override
     public boolean isAvailable() {
-        if(quantity >0)
-            return true;
-        else
-            return  false;
+        return quantity >0;
     }
+
+
         public void setQuantity(int quantity) {
             if (quantity < 0) {
                 throw new IllegalArgumentException("Quantity cannot be negative");
@@ -91,6 +91,9 @@ public abstract class Vehicle implements Rentable {
         return quantity;
     }
     public void addQuantity(int quantity) {
+        if (quantity < -this.quantity) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
         this.quantity += quantity;
     }
     public abstract String getVehicleInfo();
@@ -100,15 +103,13 @@ public abstract class Vehicle implements Rentable {
         return getVehicleInfo();
     }
 
-
-    @Override
-    public int compareTo(Rentable other) {
-        if (other instanceof Vehicle) {
-            Vehicle otherVehicle = (Vehicle) other;
-            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
-        }
-        return 0;
+     @Override
+    public int compareTo(Vehicle other) {
+        return Double.compare(this.pricePerDay, other.pricePerDay);
     }
+
+
+  
 }
 
     

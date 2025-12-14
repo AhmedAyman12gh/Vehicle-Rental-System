@@ -1,7 +1,7 @@
-public class Car extends Vehicle implements Rentable {
+public class Car extends Vehicle {
     
     
-    private String carType; // e.g., Sedan, SUV, Coupe
+    private final String carType; // e.g., Sedan, SUV, Coupe
 
     // Constructor
     public Car(String vehicleId, String brand, String model, int year, double pricePerDay, int quantity, String carType) {
@@ -59,14 +59,7 @@ public class Car extends Vehicle implements Rentable {
         return super.isAvailable();
     }
 
-    @Override
-    public int compareTo(Rentable other) {   // Compare based on vehicle ID
-        if (other instanceof Vehicle) {
-            Vehicle otherVehicle = (Vehicle) other;
-            return this.getVehicleId().compareTo(otherVehicle.getVehicleId());
-        }
-        return 0;
-    }
+   
 }
 
 

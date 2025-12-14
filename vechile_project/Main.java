@@ -1,3 +1,6 @@
+//import java.util.Arrays;
+
+
 
 public class Main {
 
@@ -8,3 +11,11 @@ public class Main {
         System.out.println(car1.getVehicleInfo());
     }
 }
+
+/*
+class GenericSort {
+    public static <T extends Comparable<T>> void sortArray(T[] array) {
+        Arrays.sort(array);
+        // GenericSort.sortArray(vehicles); to use the method
+    }
+} */

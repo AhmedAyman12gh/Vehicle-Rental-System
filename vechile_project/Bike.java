@@ -1,7 +1,7 @@
 public class Bike extends Vehicle {
    
-    private String bikeType; // e.g., Minivan, Cargo Van, Passenger Van, etc.
-    private boolean Available;
+    private final String bikeType; // e.g., Minivan, Cargo Van, Passenger Van, etc.
+  
      
     
     
@@ -20,36 +20,41 @@ public class Bike extends Vehicle {
                ", PricePerDay=" + getPricePerDay() + ", CarType=" + getBikeType() + ", Available=" + isAvailable() + "]";
     }
 
+    
+    // implementing Rentable interface methods
+    @Override
+    public String getDescription() {    
+        return "Bike: " + getBrand() + " " + getModel() + " (" + getYear() + "), Type: " + getBikeType();
+    }
 
+    @Override
+    public void rent(Customer customer, int days) {
+        if (isAvailable()) {
+            setQuantity(getQuantity() - 1);
+            System.out.println("Bike rented to " + customer.getName() + " for " + days + " days.");
+        } else {
+            System.out.println("Bike is not available for rent.");
+        }
+        
+    }
+    @Override
+    public double getRentalPrice(int days) {   // Calculate rental price
+        return getPricePerDay() * days;
+    }
+    @Override
+    public void returnItem() {    // Return the rented bike
+        setQuantity(getQuantity() + 1);
+        System.out.println("Bike returned successfully.");   // Confirmation message
+    }
 
-
-    public void setAvailable(boolean available) {
-        this.Available = available;
+    @Override 
+    public boolean isAvailable() {
+        return super.isAvailable();
     }
 
 
-    public boolean isAvailable(){
-        return Available;
-    }
     
-    
-    // // Check if the item is available for rent
-    // public void rent(Customer customer, int days){
 
 
-    // } // Rent the item to a customer for a specified number of days
-    // public double getRentalPrice(int days){
-       
 
-    // } // Get the rental price for a specified number of days
-    // public void returnItem(){
-
-    // } // Return the rented item
-    // public String getDescription(){
-       
-
-    // }// Get a description of the rentable item
 }
-
-   
-    
