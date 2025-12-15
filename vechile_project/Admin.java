@@ -1,9 +1,7 @@
-
 public class Admin extends User {
 
-    // Constructor matching the abstract User class
     public Admin(String name, String email) {
-        super(name, email);
+        super(name, email, UserRole.ADMIN);
     }
 
     // 1. Manage Inventory: Only Admin can add quantity
@@ -13,7 +11,6 @@ public class Admin extends User {
             return;
         }
         try {
-            // Pass 'this' (the Admin object) as proof of authority
             vehicle.addQuantity(quantity, this);
             System.out.println("Successfully added " + quantity + " to " + vehicle.getBrand() + " " + vehicle.getModel());
         } catch (Exception e) {
@@ -28,7 +25,6 @@ public class Admin extends User {
             return;
         }
         try {
-            // Pass 'this' to authorize the rent
             vehicle.rent(customer, days, this);
         } catch (Exception e) {
             System.out.println("Rent failed: " + e.getMessage());
@@ -43,11 +39,28 @@ public class Admin extends User {
         }
 
         try {
-            // Confirm the booking, which triggers the rental logic inside Booking
             booking.confirmBooking(this);
             System.out.println("Booking " + booking.getBookingId() + " has been APPROVED.");
         } catch (Exception e) {
             System.out.println("Approval Failed: " + e.getMessage());
         }
+    }
+
+    // 4. Reject booking (optional enhancement)
+    public void rejectBooking(Booking booking, String reason) {
+        if (booking == null) {
+            System.out.println("Error: No booking provided to reject.");
+            return;
+        }
+        System.out.println("Booking " + booking.getBookingId() + " has been REJECTED. Reason: " + reason);
+    }
+
+    // 5. Add new vehicle to system (optional)
+    public void addNewVehicle(Vehicle vehicle) {
+        if (vehicle == null) {
+            System.out.println("Error: Vehicle cannot be null.");
+            return;
+        }
+        System.out.println("Vehicle added to system: " + vehicle.getVehicleInfo());
     }
 }

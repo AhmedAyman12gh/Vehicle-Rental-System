@@ -7,7 +7,19 @@ public class Booking {
     private LocalDate returnDate;
     private double totalCost;
     private boolean isPaid;
+    private BookingStatus status;
     public static int bookingCounter = 0; 
+
+
+
+    public enum BookingStatus {
+        PENDING,
+        APPROVED,
+        REJECTED,
+        COMPLETED,
+        CANCELLED
+    }
+    
 
     public Booking(Customer customer, Rentable rentedItem, LocalDate rentalDate, LocalDate returnDate) {
         
@@ -36,9 +48,11 @@ public class Booking {
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
         this.isPaid = false;
+        this.status = BookingStatus.PENDING;
         calculateTotalCost();
         bookingCounter++;
     }
+
      private void calculateTotalCost() {
         long days = java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate);
         this.totalCost = rentedItem.getRentalPrice((int) days);
@@ -82,22 +96,42 @@ public class Booking {
                "Total Cost: $" + totalCost;
     }
 
-
     public void confirmBooking(Admin admin) {
-    if (admin == null) {
-        throw new SecurityException("Only Admin can approve bookings.");
-    }
-    
-    // Check availability NOW (at moment of approval), not just at request time
-    if (!rentedItem.isAvailable()) {
-        throw new IllegalStateException("Vehicle is no longer available.");
+        // Check 1: Only Admin can confirm
+        if (admin == null) {
+            throw new SecurityException("Only Admin can approve bookings.");
+        }
+
+        // Check 2: Must be Admin role
+      //  if (!admin.hasRole(UserRole.ADMIN)) {
+     //       throw new SecurityException("User does not have Admin privileges!");
+      //  }
+
+        // Check 3: Booking must be pending
+        if (status != BookingStatus.PENDING) {
+            throw new IllegalStateException("Booking is not in pending state. Current status: " + status);
+        }
+
+        // Check 4: Check availability
+        if (!rentedItem.isAvailable()) {
+            throw new IllegalStateException("Vehicle is no longer available.");
+        }
+
+        // Approve the booking
+        this.status = BookingStatus.APPROVED;
+        this.isPaid = true;
+
+        // Perform the rental
+        rentedItem.rent(customer, (int) java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate), admin);
     }
 
-    this.isPaid = true; // or set status to APPROVED
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+
     
-    // Perform the actual rent logic
-    rentedItem.rent(customer, (int) java.time.temporal.ChronoUnit.DAYS.between(rentalDate, returnDate), admin);
 }
 
-}
+
 

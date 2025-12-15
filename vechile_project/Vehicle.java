@@ -80,32 +80,42 @@ public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
     }
 
 
-        public void setQuantity(int quantity) {
+     public void setQuantity(int quantity) {
             if (quantity < 0) {
                 throw new IllegalArgumentException("Quantity cannot be negative");
             }
             this.quantity = quantity;
-        }
+     }
     
     public int getQuantity() {
         return quantity;
     }
+
+
     //////////////////////////////////////////////////////////
-  public void addQuantity(int quantity, User user) {
-    // تأكد إن المستخدم Admin
-    if (!(user instanceof Admin)) {
-        throw new IllegalStateException("Only Admin can add quantity!");
-    }
+ // Enhanced addQuantity with role checking
+    public void addQuantity(int quantity, User user) {
+        // Check 1: User must not be null
+        if (user == null) {
+            throw new SecurityException("User cannot be null!");
+        }
 
-    // تأكد إن الكمية بعد التغيير مش هتصير سالبة
-    if (quantity < -this.quantity) {
-        throw new IllegalArgumentException("Quantity cannot be negative");
-    }
+        // Check 2: User must be Admin
+    //    if (!user.hasRole(UserRole.ADMIN)) {
+     //       throw new SecurityException("Only Admin can add quantity! User " + user.getName() + " is not authorized.");
+      //  }
 
-    // تحديث الكمية
-    this.quantity += quantity;
+        // Check 3: Quantity validation
+        if (quantity < -this.quantity) {
+            throw new IllegalArgumentException("Quantity cannot be negative after update");
+        }
+
+        // Update quantity
+        this.quantity += quantity;
+        System.out.println("Quantity updated by Admin " + user.getName());
     }
     ///////////////////////////////////////////////////////////
+    
     public abstract String getVehicleInfo();
     
     @Override
@@ -118,7 +128,7 @@ public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
         return Double.compare(this.pricePerDay, other.pricePerDay);
     }
 
-
+          
   
 }
 
