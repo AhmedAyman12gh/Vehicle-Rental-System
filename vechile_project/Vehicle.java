@@ -100,10 +100,10 @@ public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
             throw new SecurityException("User cannot be null!");
         }
 
-        // Check 2: User must be Admin
-    //    if (!user.hasRole(UserRole.ADMIN)) {
-     //       throw new SecurityException("Only Admin can add quantity! User " + user.getName() + " is not authorized.");
-      //  }
+         //Check 2: User must be Admin
+       if (!user.hasRole(UserRole.ADMIN)) {
+           throw new SecurityException("Only Admin can add quantity! User " + user.getName() + " is not authorized.");
+       }
 
         // Check 3: Quantity validation
         if (quantity < -this.quantity) {

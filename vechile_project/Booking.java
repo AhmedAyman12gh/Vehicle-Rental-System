@@ -103,9 +103,9 @@ public class Booking {
         }
 
         // Check 2: Must be Admin role
-      //  if (!admin.hasRole(UserRole.ADMIN)) {
-     //       throw new SecurityException("User does not have Admin privileges!");
-      //  }
+       if (!admin.hasRole(UserRole.ADMIN)) {
+           throw new SecurityException("User does not have Admin privileges!");
+       }
 
         // Check 3: Booking must be pending
         if (status != BookingStatus.PENDING) {
