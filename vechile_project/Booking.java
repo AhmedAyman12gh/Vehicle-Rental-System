@@ -103,7 +103,7 @@ public class Booking {
         }
 
         // Check 2: Must be Admin role
-       if (!admin.hasRole(UserRole.ADMIN)) {
+       if (!admin.hasRole(User.UserRole.ADMIN)) {
            throw new SecurityException("User does not have Admin privileges!");
        }
 

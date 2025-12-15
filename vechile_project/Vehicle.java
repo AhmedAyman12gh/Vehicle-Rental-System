@@ -1,5 +1,5 @@
 
-public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
+public abstract class Vehicle implements Rentable, Comparable<Vehicle>  {
     private String vehicleId;      
     private String brand;          
     private String model;          
@@ -101,7 +101,7 @@ public abstract class Vehicle implements Rentable, Comparable<Vehicle> {
         }
 
          //Check 2: User must be Admin
-       if (!user.hasRole(UserRole.ADMIN)) {
+       if (!user.hasRole(User.UserRole.ADMIN)) {
            throw new SecurityException("Only Admin can add quantity! User " + user.getName() + " is not authorized.");
        }
 
